@@ -1,5 +1,5 @@
 export interface Activity {
-  id?: number
+  id: number
   photoUrl?: string
   name?: string
   description?: string
