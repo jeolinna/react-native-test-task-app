@@ -1,23 +1,30 @@
 import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native'
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
-import { RootStackParamList } from './types/root'
-import { useState } from 'react'
-import tw from 'twrnc'
-import { BackButton } from '../components/BackButton'
 import { StackNavigationProp } from '@react-navigation/stack'
+import tw from 'twrnc'
+import { RootStackParamList } from './types/root'
+import { BackButton } from '../components/BackButton'
+import { useAddToFavorites } from '../api/useAddToFavorites'
 
 type ActivityDetailsScreenRouteProp = RouteProp<
   RootStackParamList,
   'ActivityDetails'
 >
 
-const ActivityDetailsScreen = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
-  const { params } = useRoute<ActivityDetailsScreenRouteProp>()
-  const [isFavorite, setIsFavorite] = useState(false)
+type ActivityDetailsScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'ActivityDetails'
+>
 
-  const handleAddToFavorites = () => {
-    setIsFavorite(prev => !prev)
+const ActivityDetailsScreen = () => {
+  const navigation = useNavigation<ActivityDetailsScreenNavigationProp>()
+  const { params } = useRoute<ActivityDetailsScreenRouteProp>()
+  const activity = params.activity
+
+  const { toggleFavorite, isFavorite, isPending } = useAddToFavorites()
+
+  const handleToggleFavorite = () => {
+    toggleFavorite({ id: activity.id })
   }
 
   return (
@@ -26,22 +33,22 @@ const ActivityDetailsScreen = () => {
 
       <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
         <Image
-          source={{ uri: params.activity.photoUrl }}
+          source={{ uri: activity.photoUrl }}
           style={tw`w-full h-[450px] rounded-b-[20px]`}
           resizeMode="cover"
         />
 
-        <View style={tw`px-5 mt-4 gap-5 `}>
+        <View style={tw`px-5 mt-5 gap-5`}>
           <Text style={[tw`text-2xl`, { fontFamily: 'Abel' }]}>
-            {params.activity.name}
+            {activity.name}
           </Text>
           <Text style={[tw`text-base`, { fontFamily: 'Abel' }]}>
-            {params.activity.location}
+            {activity.location}
           </Text>
 
-          <View style={tw`flex-row items-center justify-between `}>
+          <View style={tw`flex-row items-center justify-between`}>
             <Text style={[tw`text-xl`, { fontFamily: 'Abel' }]}>
-              ${params.activity.price}
+              ${activity.price}
             </Text>
             <Text style={[tw`text-xs text-gray-400`, { fontFamily: 'Abel' }]}>
               Included taxes and fees
@@ -53,27 +60,21 @@ const ActivityDetailsScreen = () => {
           <Text style={[tw`text-base`, { fontFamily: 'Abel' }]}>
             Description
           </Text>
-          <Text style={tw`text-sm text-gray-500`}>
-            {params.activity.description}
-          </Text>
+          <Text style={tw`text-sm text-gray-500`}>{activity.description}</Text>
 
           <View style={tw`border-b border-gray-200`} />
         </View>
       </ScrollView>
 
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          padding: 16,
-          backgroundColor: 'white',
-        }}
-      >
+      <View style={tw`absolute bottom-0 left-0 right-0 p-4 bg-white`}>
         <TouchableOpacity
-          onPress={handleAddToFavorites}
-          style={tw`py-5 px-[22px] rounded-[800px] ${isFavorite ? 'bg-gray-400' : 'bg-black'}`}
+          onPress={handleToggleFavorite}
+          disabled={isPending}
+          style={tw.style(
+            'py-5 px-[22px] rounded-[800px]',
+            isFavorite(activity.id) ? 'bg-gray-400' : 'bg-black',
+            isPending && 'opacity-50',
+          )}
         >
           <Text
             style={[
@@ -81,7 +82,11 @@ const ActivityDetailsScreen = () => {
               { fontFamily: 'Abel' },
             ]}
           >
-            {isFavorite ? 'Added to Favorites' : 'Add to Favorites'}
+            {isPending
+              ? 'Loading...'
+              : isFavorite(activity.id)
+                ? 'Added to Favorites'
+                : 'Add to Favorites'}
           </Text>
         </TouchableOpacity>
       </View>

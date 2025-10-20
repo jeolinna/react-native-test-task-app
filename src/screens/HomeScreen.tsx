@@ -10,6 +10,7 @@ import Error from '../components/Error'
 import { Activity } from '../api/apiTypes'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { FlatList } from 'react-native-gesture-handler'
+import { useAddToFavorites } from '../api/useAddToFavorites'
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>
 
@@ -18,6 +19,7 @@ const keyExtractor = (activity: Activity) => activity.id.toString()
 const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>()
   const { data: activities, isLoading, isError } = useGetActivitiesQuery()
+  const { favorites } = useAddToFavorites()
 
   const handleActivityPress = (activity: Activity) => {
     navigation.navigate('ActivityDetails', { activity })
@@ -46,7 +48,11 @@ const HomeScreen = () => {
           data={activities}
           keyExtractor={keyExtractor}
           renderItem={({ item }) => (
-            <ActivityCard activity={item} onPress={handleActivityPress} />
+            <ActivityCard
+              activity={item}
+              onPress={handleActivityPress}
+              isFavorite={favorites.includes(item.id)}
+            />
           )}
           contentContainerStyle={{ gap: 10, paddingBottom: 20 }}
           showsVerticalScrollIndicator={false}

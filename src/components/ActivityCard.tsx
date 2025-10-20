@@ -3,21 +3,34 @@ import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { Activity } from '../api/apiTypes'
 import Location from '/assets/svg/Location.svg'
 import Star from '/assets/svg/Star.svg'
+import Fire from '/assets/svg/Fire.svg'
 import tw from 'twrnc'
 
 interface ActivityCardProps {
   activity: Activity
   onPress: (activity: Activity) => void
+  isFavorite?: boolean
 }
 
-const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onPress }) => {
-  const imageUrl =
-    activity.photoUrl || 'https://placehold.co/300x150/e0e0e0/555?text=ACTIVITY'
-
+const ActivityCard: React.FC<ActivityCardProps> = ({
+  activity,
+  onPress,
+  isFavorite = false,
+}) => {
   return (
-    <TouchableOpacity style={tw`w-full`} onPress={() => onPress(activity)}>
+    <TouchableOpacity
+      style={tw`w-full relative`}
+      onPress={() => onPress(activity)}
+    >
+      {isFavorite && (
+        <View
+          style={tw`absolute top-2 left-2 z-10 bg-yellow-400 rounded-full p-[6px]`}
+        >
+          <Fire width={16} height={16} />
+        </View>
+      )}
       <Image
-        source={{ uri: imageUrl }}
+        source={{ uri: activity.photoUrl }}
         style={tw`h-[140px] w-full mb-1 rounded-2xl`}
         resizeMode="cover"
       />

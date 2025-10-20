@@ -1,24 +1,55 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api } from './axios'
 import { FavoritePayload, FavoriteResponse } from './apiTypes'
+
+export const FAVORITES_KEY = ['favorites']
+
+const getFavorites = async (): Promise<number[]> => {
+  const response = await api.get<number[]>('/favorites')
+  return response.data
+}
 
 const postFavorite = async (
   payload: FavoritePayload,
 ): Promise<FavoriteResponse> => {
-  try {
-    const response = await api.post<FavoriteResponse>('/favorites', payload)
-    return response.data
-  } catch {
-    throw new Error('Failed to add favorite')
-  }
+  const response = await api.post<FavoriteResponse>('/favorites', payload)
+  return response.data
+}
+
+export const useFavorites = () => {
+  return useQuery({
+    queryKey: FAVORITES_KEY,
+    queryFn: getFavorites,
+  })
 }
 
 export const usePostFavoriteMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: postFavorite,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['favorites'] })
+    onMutate: async newFav => {
+      await queryClient.cancelQueries({ queryKey: FAVORITES_KEY })
+
+      const previousFavorites =
+        queryClient.getQueryData<number[]>(FAVORITES_KEY) || []
+      const isAlreadyFavorite = previousFavorites.includes(newFav.id)
+
+      const updatedFavorites = isAlreadyFavorite
+        ? previousFavorites.filter(id => id !== newFav.id)
+        : [...previousFavorites, newFav.id]
+
+      queryClient.setQueryData(FAVORITES_KEY, updatedFavorites)
+
+      return { previousFavorites }
+    },
+    onError: (_err, _newFav, context) => {
+      if (context?.previousFavorites) {
+        queryClient.setQueryData(FAVORITES_KEY, context.previousFavorites)
+      }
+    },
+    onSettled: async () => {
+      await new Promise(r => setTimeout(r, 300))
+      queryClient.invalidateQueries({ queryKey: FAVORITES_KEY })
     },
   })
 }
