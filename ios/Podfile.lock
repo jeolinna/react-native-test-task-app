@@ -935,7 +935,11 @@ PODS:
   - React-Mapbuffer (0.74.3):
     - glog
     - React-debug
-  - react-native-safe-area-context (4.14.1):
+  - react-native-config (1.5.9):
+    - react-native-config/App (= 1.5.9)
+  - react-native-config/App (1.5.9):
+    - React-Core
+  - react-native-safe-area-context (5.6.1):
     - React-Core
   - react-native-splash-screen (3.3.0):
     - React-Core
@@ -1232,6 +1236,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNSVG (15.14.0):
+    - React-Core
   - SocketRocket (0.7.0)
   - Yoga (0.0.0)
 
@@ -1268,6 +1274,7 @@ DEPENDENCIES:
   - React-jsitracing (from `../node_modules/react-native/ReactCommon/hermes/executor/`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
+  - react-native-config (from `../node_modules/react-native-config`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
@@ -1296,6 +1303,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1364,6 +1372,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   React-Mapbuffer:
     :path: "../node_modules/react-native/ReactCommon"
+  react-native-config:
+    :path: "../node_modules/react-native-config"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
@@ -1420,6 +1430,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1454,7 +1466,8 @@ SPEC CHECKSUMS:
   React-jsitracing: eee70a10f1e17690d33fb46a0989a19657c546a3
   React-logger: bbd09ad59f304e718962b2867534204710873bd9
   React-Mapbuffer: da4470fdf42b2e389efbc4e7af958bf96e921a0b
-  react-native-safe-area-context: 758e894ca5a9bd1868d2a9cfbca7326a2b6bf9dc
+  react-native-config: d08b60865268872495a43e211059b4606131fe01
+  react-native-safe-area-context: 2243039f43d10cb1ea30ec5ac57fc6d1448413f4
   react-native-splash-screen: 95994222cc95c236bd3cdc59fe45ed5f27969594
   React-nativeconfig: fa5de9d8f4dbd5917358f8ad3ad1e08762f01dcb
   React-NativeModulesApple: 714d4a6ea3c580c31b25ad01f9650b259fad9818
@@ -1482,6 +1495,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: eb1839bf183a333a8cf9bb16d26d41cb17850a4d
   RNReanimated: 0cfd3162e99b0388bd272f8e154d724148e3c496
   RNScreens: ef68e50aea531dd00c592ba4683bbcb89d4d2e1a
+  RNSVG: 197ddaa1219171ebb0542bc4d10bcde7d6f39f57
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: 04f1db30bb810187397fa4c37dd1868a27af229c
 
