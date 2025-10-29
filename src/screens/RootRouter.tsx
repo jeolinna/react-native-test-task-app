@@ -5,7 +5,7 @@ import {
 import HomeScreen from './HomeScreen'
 import { RootStackParamList } from './types/root'
 import ActivityDetailsScreen from './ActivityDetailsScreen'
-import { BackButton } from '../components/BackButton'
+import { IconButton } from '../components/IconButton'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -32,7 +32,7 @@ const RootRouter = () => {
           headerShown: true,
           headerTransparent: true,
           title: '',
-          headerLeft: () => <BackButton navigation={navigation} />,
+          headerLeft: () => <IconButton navigation={navigation} />,
           headerLeftContainerStyle: { paddingLeft: 16 },
         })}
       />

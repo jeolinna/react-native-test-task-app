@@ -1,4 +1,3 @@
-import React from 'react'
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { Activity } from '../api/apiTypes'
 import Location from '/assets/svg/Location.svg'
@@ -12,11 +11,11 @@ interface ActivityCardProps {
   isFavorite?: boolean
 }
 
-const ActivityCard: React.FC<ActivityCardProps> = ({
+const ActivityCard = ({
   activity,
   onPress,
   isFavorite = false,
-}) => {
+}: ActivityCardProps) => {
   return (
     <TouchableOpacity
       style={tw`w-full relative`}
