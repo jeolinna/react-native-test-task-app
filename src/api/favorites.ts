@@ -48,7 +48,6 @@ export const usePostFavoriteMutation = () => {
       }
     },
     onSettled: async () => {
-      await new Promise(r => setTimeout(r, 300))
       queryClient.invalidateQueries({ queryKey: FAVORITES_KEY })
     },
   })
