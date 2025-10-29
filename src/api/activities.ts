@@ -3,12 +3,8 @@ import { api } from './axios'
 import { Activity } from './apiTypes'
 
 const fetchActivities = async (): Promise<Activity[]> => {
-  try {
-    const response = await api.get<Activity[]>('/activities')
-    return response.data
-  } catch {
-    throw new Error('Failed to fetch activities')
-  }
+  const response = await api.get<Activity[]>('/activities')
+  return response.data
 }
 
 export const useGetActivitiesQuery = () => {
