@@ -5,6 +5,7 @@ import {
 import HomeScreen from './HomeScreen'
 import { RootStackParamList } from './types/root'
 import ActivityDetailsScreen from './ActivityDetailsScreen'
+import { BackButton } from '../components/BackButton'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -27,7 +28,13 @@ const RootRouter = () => {
       <Stack.Screen
         name="ActivityDetails"
         component={ActivityDetailsScreen}
-        options={{ headerShown: false }}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerTransparent: true,
+          title: '',
+          headerLeft: () => <BackButton navigation={navigation} />,
+          headerLeftContainerStyle: { paddingLeft: 16 },
+        })}
       />
     </Stack.Navigator>
   )

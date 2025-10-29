@@ -1,9 +1,7 @@
 import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native'
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
-import { StackNavigationProp } from '@react-navigation/stack'
+import { RouteProp, useRoute } from '@react-navigation/native'
 import tw from 'twrnc'
 import { RootStackParamList } from './types/root'
-import { BackButton } from '../components/BackButton'
 import { useAddToFavorites } from '../api/useAddToFavorites'
 
 type ActivityDetailsScreenRouteProp = RouteProp<
@@ -11,13 +9,7 @@ type ActivityDetailsScreenRouteProp = RouteProp<
   'ActivityDetails'
 >
 
-type ActivityDetailsScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'ActivityDetails'
->
-
 const ActivityDetailsScreen = () => {
-  const navigation = useNavigation<ActivityDetailsScreenNavigationProp>()
   const { params } = useRoute<ActivityDetailsScreenRouteProp>()
   const activity = params.activity
 
@@ -29,8 +21,6 @@ const ActivityDetailsScreen = () => {
 
   return (
     <View style={tw`flex-1 bg-white`}>
-      <BackButton navigation={navigation} />
-
       <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
         <Image
           source={{ uri: activity.photoUrl }}

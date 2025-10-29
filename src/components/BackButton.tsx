@@ -11,7 +11,7 @@ type BackButtonProps = {
 export const BackButton = ({ navigation }: BackButtonProps) => (
   <TouchableOpacity
     onPress={() => navigation.goBack()}
-    style={tw`bg-white rounded-full p-4 absolute top-12 left-3 z-10`}
+    style={tw`bg-white rounded-full p-4`}
   >
     <BackIcon width={24} height={24} />
   </TouchableOpacity>
