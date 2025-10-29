@@ -1,8 +1,8 @@
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, Image, ScrollView } from 'react-native'
 import { RouteProp, useRoute } from '@react-navigation/native'
 import tw from 'twrnc'
 import { RootStackParamList } from './types/root'
-import { useAddToFavorites } from '../api/useAddToFavorites'
+import { AddToFavoritesButton } from '../components/AddToFavoritesButton'
 
 type ActivityDetailsScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -12,12 +12,6 @@ type ActivityDetailsScreenRouteProp = RouteProp<
 const ActivityDetailsScreen = () => {
   const { params } = useRoute<ActivityDetailsScreenRouteProp>()
   const activity = params.activity
-
-  const { toggleFavorite, isFavorite, isPending } = useAddToFavorites()
-
-  const handleToggleFavorite = () => {
-    toggleFavorite({ id: activity.id })
-  }
 
   return (
     <View style={tw`flex-1 bg-white`}>
@@ -56,30 +50,7 @@ const ActivityDetailsScreen = () => {
         </View>
       </ScrollView>
 
-      <View style={tw`absolute bottom-0 left-0 right-0 p-4 bg-white`}>
-        <TouchableOpacity
-          onPress={handleToggleFavorite}
-          disabled={isPending}
-          style={tw.style(
-            'py-5 px-[22px] rounded-[800px]',
-            isFavorite(activity.id) ? 'bg-gray-400' : 'bg-black',
-            isPending && 'opacity-50',
-          )}
-        >
-          <Text
-            style={[
-              tw`text-base text-white text-center`,
-              { fontFamily: 'Abel' },
-            ]}
-          >
-            {isPending
-              ? 'Loading...'
-              : isFavorite(activity.id)
-                ? 'Added to Favorites'
-                : 'Add to Favorites'}
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <AddToFavoritesButton activity={activity} />
     </View>
   )
 }
